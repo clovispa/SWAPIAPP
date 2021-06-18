@@ -26,7 +26,7 @@ export default {
 <style lang="scss" scoped >
 .sw-button {
   a {
-    padding: 11px 20px;
+    padding: 10px 25px;
     background-color: red;
     border-radius: 60px;
     color: #ffffff;

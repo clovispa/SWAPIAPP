@@ -7,7 +7,7 @@
       <h1>Welcome to Star Wars API</h1>
       <p>All the Star Wars data you've ever wanted:</p>
       <p> Planets, Spaceships, Vehicles, People, Films and Species</p>
-    <sw-bottom :isActive="true" path="/about">Get started</sw-bottom>
+    <sw-bottom :isActive="true" path="/section">Get started</sw-bottom>
     </main>
   </div>
 </template>
