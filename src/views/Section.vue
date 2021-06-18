@@ -59,7 +59,7 @@
          </v-container>
        </v-col>
        <v-col class="sw-home">
-         <img src="../assets/swimg.jpg" alt="starWar">
+         <img src="../assets/sw.jpg" alt="starWar">
        </v-col>
      </v-row>
     </section>
@@ -79,7 +79,7 @@ export default {
     }
   },
   mounted() {
-    this.getCharacters();
+    //this.getCharacters();
   },
   methods: {
     getCharacters() {

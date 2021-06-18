@@ -1,6 +1,11 @@
 <template>
 <div>
-  <div class="container">
+   <a>1</a>
+  <a>1</a>
+  <a>1</a>
+  <a>1</a>
+  <a>1</a>
+<!--  <div class="container">
     <div v-for="h in dataSw" :key="h.id">
       <v-btn
           to="/films"
@@ -8,7 +13,7 @@
         {{h.title}}
       </v-btn>
     </div>
-  </div>
+  </div>-->
 
 
 </div>
