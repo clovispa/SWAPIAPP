@@ -41,10 +41,6 @@ export default {
       default: false
     }
   },
-  data () {
-    return {
-    }
-  },
 }
 </script>
 

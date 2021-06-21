@@ -46,7 +46,7 @@ export default {
   data () {
     return {
       dataStartWars: [],
-      detallesCharactersCharacters: [],
+      detalisCharacters: [],
       characters: [],
       dataPerson: [],
     }
@@ -82,8 +82,8 @@ export default {
       let endpoint = item
       const newEndpoint = endpoint.slice(-10)
       ApiService.apiPeople(newEndpoint).then((res) => {
-        this.detallesCharacters= res
-        this.fillEndpoint(this.detallesCharacters);
+        this.detalisCharacters= res
+        this.fillEndpoint(this.detalisCharacters);
       }).catch(err => {
         console.log(err)
       })
