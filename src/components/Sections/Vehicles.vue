@@ -1,28 +1,36 @@
 <template>
   <div>
-    <p>Vehicles</p>
+    <main class="sw-vehicles__main">
+      <h1>Vehicles</h1>
+      <br>
+    </main>
     <v-data-table
         :headers="headers"
         :items="datavehicles"
         hide-default-footer
         class="elevation-1"
     ></v-data-table>
-    <br>
-    <div class="container align-center">
-      <v-btn
-          to="/section"
-      >
-        Go back
-      </v-btn>
+    <div class="container">
+      <main class="sw-vehicles__main">
+        <v-btn
+            to="/section"
+            color="red"
+        >
+          Go back
+        </v-btn>
+      </main>
     </div>
-
+   <loading :loading="loading"/>
   </div>
 </template>
 
 <script>
 import ApiService from '@/service/ApiService';
+import Loading from '../commons/Loading';
+import {mapGetters} from 'vuex';
 export default {
   name: "Vehicles",
+  components: {Loading},
   data() {
     return {
       datavehicles: [],
@@ -35,12 +43,18 @@ export default {
   created() {
     this.getvehicles();
   },
+  computed: {
+    ...mapGetters(['loading']),
+  },
   methods: {
     getvehicles (){
+      this.$store.commit('SET_LOADING', true)
       ApiService.apiVehicles().then((res) => {
         const {data} = res;
         this.datavehicles = data.results;
+        this.$store.commit('SET_LOADING', false)
       }).catch(error => {
+        this.$store.commit('SET_LOADING', false)
         console.error(error)
       })
     }
@@ -48,6 +62,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  scoped lang="scss">
+.sw-vehicles__main {
+  text-align: center;
+  padding: 30px;
 
+h1 {
+  font-weight: 700;
+  font-size: 1.625rem;
+}
+}
 </style>

@@ -6,13 +6,6 @@
           max-width="600"
           v-model="dialog"
       >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-              color="primary"
-              v-bind="attrs"
-              v-on="on"
-          >From the bottom</v-btn>
-        </template>
         <template>
           <v-card>
             <v-toolbar
@@ -22,6 +15,7 @@
             <v-card-text>
               <div>
                 <v-row>
+                  <br>
                   <v-col>Name:</v-col>
                   <v-col><strong>{{ dataPerson[0].name }}</strong></v-col>
                   <v-col>Gender:</v-col>

@@ -1,9 +1,13 @@
 <template>
 <div>
-  <v-expansion-panels   v-for="item in dataStarWars"
+  <main class="sw-films__main">
+    <h1>Films</h1>
+    <br>
+  </main>
+  <v-expansion-panels   v-for="item in dataStartWars"
                         :key="item.id">
     <v-expansion-panel>
-      <v-expansion-panel-header @click="getEndPointCharacters(item)">
+      <v-expansion-panel-header @click="getItems(item)">
         {{ item.title }}
       </v-expansion-panel-header>
       <v-expansion-panel-content v-for="element in characters " :key="element.id">
@@ -11,58 +15,66 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
-  <div class="container">
-    <v-btn
-        to="/section"
-    >
-      Go back
-    </v-btn>
-  </div>
-
   <div v-if="viewModal">
-    <ModalPeople :dataCharacters="dataCharacters"></ModalPeople>
+    <ModalPeople :dataPerson="dataPerson"></ModalPeople>
   </div>
+  <div class="container">
+    <main class="sw-films__main">
+      <v-btn
+          to="/section"
+          color="red"
+      >
+        Go back
+      </v-btn>
+    </main>
+  </div>
+<loading :loading="loading"/>
 </div>
 </template>
 
 <script>
 import ApiService from '@/service/ApiService';
-import ModalPeople from "../ModalPeople";
-import {mapState} from 'vuex';
+import ModalPeople from '../ModalPeople';
+import {mapGetters, mapState} from 'vuex';
+import Loading from '../commons/Loading';
 
 
 
 export default {
-  name: "Films",
-  components: {ModalPeople},
+  name: 'Films',
+  components: {Loading, ModalPeople},
   data () {
     return {
-      dataStarWars: [],
-      detailsPeople: [],
+      dataStartWars: [],
+      detallesCharactersCharacters: [],
       characters: [],
-      dataCharacters: [],
+      dataPerson: [],
     }
   },
   computed: {
     ...mapState(['viewModal']),
+    ...mapGetters(['loading']),
   },
   mounted() {
     this.getCharacters();
   },
   methods: {
     getCharacters() {
+      this.$store.commit('SET_LOADING', true)
       ApiService.apisw().then((res) => {
         const {data} = res;
-        this.dataStarWars = data.results
+        this.dataStartWars = data.results
+        this.$store.commit('SET_LOADING', false)
       }).catch(error => {
+        this.$store.commit('SET_LOADING', false)
         console.error(error)
       })
     },
-    getEndPointCharacters(item) {
-     let charactersArray = item.characters
-      let charactersObj = {...charactersArray}
-      for (const prop in charactersObj) {
-        let endpoint = `${charactersObj[prop]}`;
+    getItems(item) {
+     let newCharacters = item.characters
+      let arrayCharacters = {...newCharacters}
+      for (const prop in arrayCharacters) {
+        let endpoint = `${arrayCharacters[prop]}`;
         this.details(endpoint);
       }
     },
@@ -70,21 +82,24 @@ export default {
       let endpoint = item
       const newEndpoint = endpoint.slice(-10)
       ApiService.apiPeople(newEndpoint).then((res) => {
-        this.detailsPeople= res
-        this.fillArrayEnpoint(this.detailsPeople);
+        this.detallesCharacters= res
+        this.fillEndpoint(this.detallesCharacters);
       }).catch(err => {
         console.log(err)
       })
     },
-    fillArrayEnpoint(item) {
+    fillEndpoint(item) {
       this.characters.push(item.data.name);
     },
     searchCharacters(item) {
+      this.$store.commit('SET_LOADING', true)
       ApiService.apiSearch(item).then((res)=> {
-        this.dataCharacters = res.data.results;
+        this.dataPerson = res.data.results;
         this.$store.commit('SET_MODAl', true)
+        this.$store.commit('SET_LOADING', false)
       }).catch(err => {
         console.log(err)
+        this.$store.commit('SET_LOADING', false)
       })
     }
   },
@@ -92,6 +107,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.sw-films__main {
+  text-align: center;
+  padding: 30px;
 
+  h1 {
+    font-weight: 700;
+    font-size: 1.625rem;
+  }
+}
 </style>

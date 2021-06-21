@@ -38,7 +38,7 @@
             </v-col>
             <v-row>
               <v-col cols="8">
-                <v-btn color="info" :disabled="!valid || isEmpty"  @click="validate">Send
+                <v-btn color="info" :disabled="!valid"  @click="validate">Send
                 </v-btn>
               </v-col>
              <v-col>
@@ -112,6 +112,11 @@ export default {
     'jsonData.postalCode' () {
       if (this.jsonData.postalCode == '') this.isEmpty = true
       else this.isEmpty = false
+    },
+    'valid' () {
+      if(this.valid == false) {
+        this.$store.commit('SET_DIALOG', false);
+      }
     }
   },
   methods: {
@@ -120,16 +125,13 @@ export default {
     }),
     validate () {
         this.$refs.form.validate();
-      this.call();
+        if(this.valid) {
+          this.apiMockup(this.jsonData)
+        }else {
+          this.$store.commit('SET_DIALOG', false);
+        }
 
     },
-    call() {
-      if(this.valid && this.isEmpty == false){
-        this.apiMockup(this.jsonData)
-      } else {
-        this.validate();
-      }
-    }
   }
 
 }
