@@ -1,5 +1,5 @@
 import apiService from '@/service/ApiService';
-import router from "../../router";
+
 
 const actions = {
   async apiMockup ({ commit}) {
@@ -9,11 +9,11 @@ const actions = {
       console.log(data)
       commit('SET_LOADING', false);
     } catch (error) {
-      router.push('/')
       commit('SET_LOADING', false)
+      commit('SET_DIALOG', true)
       console.log(error)
     }
-  },
+  }
 
 };
 export default actions;

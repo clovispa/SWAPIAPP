@@ -19,7 +19,6 @@
                   v-model="valid"
                   lazy-validation
               >
-
                 <v-flex cols="12" md="12" class="pt-0 pb-0">
                   <v-text-field  label="Name" v-model="jsonData.name"  :rules="nameRules"  clearable outlined dense></v-text-field>
                 </v-flex>
@@ -39,7 +38,7 @@
             </v-col>
             <v-row>
               <v-col cols="8">
-                <v-btn color="info" :disabled="!valid"  @click="validate">Send
+                <v-btn color="info" :disabled="!valid || isEmpty"  @click="validate">Send
                 </v-btn>
               </v-col>
              <v-col>
@@ -53,6 +52,7 @@
           </v-row>
         </v-container>
       </v-card>
+    <modal-message-send :dialog="dialog"/>
     <loading :loading="loading" />
   </div>
 </template>
@@ -60,9 +60,10 @@
 
 import { mapActions, mapGetters } from 'vuex';
 import Loading from '../components/commons/Loading';
+import ModalMessageSend from '../components/commons/ModalMessageSend';
 export default {
   name: 'ContactUs',
-  components: {Loading},
+  components: {ModalMessageSend, Loading},
   data () {
     return {
       valid: true,
@@ -88,31 +89,47 @@ export default {
         email: null,
         postalCode: null,
         optinal: null
-      }
+      },
+      isEmpty: true
     }
   },
   computed: {
-    ...mapGetters(['loading']),
+    ...mapGetters(['loading', 'dialog']),
+  },
+  watch: {
+    'jsonData.name' () {
+      if (this.jsonData.name == '') this.isEmpty = true
+       else this.isEmpty = false
+    },
+    'jsonData.lastName' () {
+      if (this.jsonData.lastName == '') this.isEmpty = true
+      else this.isEmpty = false
+    },
+    'jsonData.email' () {
+      if (this.jsonData.email == '') this.isEmpty = true
+      else this.isEmpty = false
+    },
+    'jsonData.postalCode' () {
+      if (this.jsonData.postalCode == '') this.isEmpty = true
+      else this.isEmpty = false
+    }
   },
   methods: {
     ...mapActions({
       apiMockup: 'apiMockup',
     }),
     validate () {
-      console.log('este', this.jsonData)
-        this.apiMockup(this.jsonData)
-      this.$refs.form.validate()
-    },
-    reset () {
-      this.$refs.form.reset()
-    },
-    /*getForm() {
-      ApiService.apiMockup(this.jsonData).then((res) => {
-        const { data } = res;
-        console.log(data)
-      })
+        this.$refs.form.validate();
+      this.call();
 
-    }*/
+    },
+    call() {
+      if(this.valid && this.isEmpty == false){
+        this.apiMockup(this.jsonData)
+      } else {
+        this.validate();
+      }
+    }
   }
 
 }
