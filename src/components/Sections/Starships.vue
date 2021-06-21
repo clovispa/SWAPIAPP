@@ -54,9 +54,9 @@ export default {
       ApiService.apiStarships().then((res) => {
         const {data} = res;
         this.dataStarship = data.results;
-        this.$store.commit('SET_LOADING', false)
+        this.$store.commit('SET_LOADING', false);
       }).catch(error => {
-        this.$store.commit('SET_LOADING', false)
+        this.$store.commit('SET_LOADING', false);
         console.error(error)
       })
     }

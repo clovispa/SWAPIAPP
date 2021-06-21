@@ -127,7 +127,6 @@ export default {
     }),
     isEmpty () {
       this.validateData =  Object.values(this.jsonData).some(key => key == null);
-      console.log(this.validateData, 'validateData')
     },
     validate () {
       this.isEmpty()
@@ -135,6 +134,7 @@ export default {
       if(this.valid) {
         if(this.validateData === false ){
           this.apiMockup(this.jsonData)
+          this.$store.commit('SET_DIALOG', false);
         } else {
           this.$store.commit('SET_DIALOG', false);
         }

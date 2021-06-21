@@ -20,7 +20,7 @@
               <v-btn
                   color="primary"
                   text
-                  @click="dialog = false"
+                  @click="closed"
               >
                 Closed
               </v-btn>
@@ -41,6 +41,12 @@ export default {
       default: false
     }
   },
+  methods: {
+    closed () {
+      this.dialog = false;
+      this.$store.commit('SET_DIALOG', false);
+    }
+  }
 }
 </script>
 
